@@ -1,0 +1,36 @@
+{% extends 'base2.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+
+{% if stitle is defined %}
+<h2 class="sub-header">{{stitle}}</h2>
+{% endif %}
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Lugar</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for ubic in ubicall %}
+			<tr>
+				<td>{{ubic.id}}</td>
+				<td>{{ubic.ubicacion}}</td>
+				<td>
+					<div class="btn-group btn-group-sm act" role="group" aria-label="Extra-small button group">
+						<a href="ubicacion/editar/{{ubic.id}}" class="btn btn-primary" title="Editar"><i class="fa fa-pencil"></i></a>
+						<button type="button" class="btn btn-danger" name="{{ubic.id}}" data-toggle="modal" data-target="#modal" title="Eliminar"><i class="fa fa-trash"></i></button>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
