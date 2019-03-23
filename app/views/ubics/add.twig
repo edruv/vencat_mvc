@@ -1,0 +1,32 @@
+{% extends 'base2.html' %}
+
+{% block title %}{{title}}{% endblock %}
+{% block alert %}
+	{% if alert is defined %}
+	<div class="alert alert-{{alert.type}} alert-dismissible text-center" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{alert.message|raw}}.
+	</div>
+	{% endif %}
+{% endblock %}
+
+
+{% block content %}
+<form action="/vencat/ubicacion/add" method="post" class="col-md-4 col-md-offset-4 col-sm-12 text-center">
+	<div class="form-group">
+		<label for="uname">Nombre del lugar / área</label>
+		<input class="form-control" type="text" name="uname" id="uname">
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Crear Nueva Ubicacion" class="btn btn-primary">
+	</div>
+</form>
+{% endblock %}
+{% block js %}
+{% if red == true %}
+<script type="text/javascript">
+	setTimeout(function() {window.location.href = '/vencat/ubicacion'},3000);
+
+</script>
+{% endif %}
+{% endblock %}

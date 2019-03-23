@@ -1,6 +1,14 @@
 {% extends 'base2.html' %}
 
 {% block title %}{{title}}{% endblock %}
+{% block alert %}
+	{% if alert is defined %}
+	<div class="alert alert-{{alert.type}} alert-dismissible text-center" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{alert.message|raw}}.
+	</div>
+	{% endif %}
+{% endblock %}
 
 {% block content %}
 
@@ -33,4 +41,55 @@
 	</table>
 </div>
 
+{% endblock %}
+{% block htmlxtra %}
+<div class="modal fade" id="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Eliminar ubicacion?</h4>
+			</div>
+			<div class="modal-body">
+				<p>Deseas borrar la ubicacion "<strong></strong>"?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<!-- <button type="button" class="btn btn-danger"></button> -->
+				<a href="" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.act .btn-danger').on('click', function(e) {
+		// e.preventDefault();
+		var id = $(this).attr('name');
+		$.ajax({
+			url: '/vencat/ubicacion/getone/',
+			type: 'GET',
+			data: {id: (id)}
+		})
+		.done(function(data) {
+			data = JSON.parse(data);
+			if (data !='false') {
+				$('#modal .modal-body strong').append(data.ubicacion.toUpperCase());
+				$('#modal .modal-footer a').attr('href', '/vencat/ubicacion/remove/'+data.id);
+			}else {
+				console.log('no hay info');
+			}
+		})
+		.fail(function() {
+			console.log("error");
+		});
+		$(".modal").on("hidden.bs.modal", function(){
+			$(".modal-footer a").attr('href', '');
+			$(".modal-body strong").html("");
+		});
+	});
+});
+</script>
 {% endblock %}
