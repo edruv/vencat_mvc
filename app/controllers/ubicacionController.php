@@ -11,7 +11,7 @@
 			$this->uri = explode('/',URI);
 		}
 
-		public function index($title=''){
+		public function index(){
 			$title = 'Ubicaciones';
 			$ubicall = $this->model->all();
 			echo $this->twig->render('index.twig', compact('title','ubicall'));
@@ -38,31 +38,35 @@
 				$alert = array('type' => 'warning', 'message' => "<strong>Error</strong>! no se ingreso ningun campo");
 				echo $this->twig->render('add.twig',compact('title','alert'));
 			}
-
 		}
 
 		public function editar($param){
-			$title = 'Editar Ubicacion';
-			$id = $this->model->getone($param);
-			$path = '/'.PROJECT.'ubicacion/edit/'.$id['id'];
+			$title = 'Editar ubicacion';
 
-			echo $this->twig->render('edit.twig',compact('title','id','path'));
+			$ubic = $this->model->getone($param);
+			// print_r($ubic);
+			echo $this->twig->render('edit.twig',compact('title','ubic'));
 		}
 
-		public function edit($param){
-			$title = 'Editar Ubicacion';
-			$param['id'] = $this->uri[4];
+		public function edit($params){
+			$title = 'Editar ubicacion';
 
-			if ($this->model->edit($param)) {
-				$alert = array('type' => 'success', 'message' => "La ubicacion \"<strong>".$param['uname']."</strong>\" se agrego exitosamente");
+			if ($this->model->edit($params)) {
+				$alert = array('type' => 'success', 'message' => "La ubicacion \"<strong>".$params['uname']."</strong>\" se agrego exitosamente");
 				$red = true;
-				echo $this->twig->render('edit.twig',compact('alert','title'));
 			} else {
-				$alert = array('type' => 'danger', 'message' => "<strong>Error</strong>! Se produjo un error interno al intentar editar la ubicacion \"".$param['uname']."\"");
+				$alert = array('type' => 'danger', 'message' => "<strong>Error</strong>! Se produjo un error interno al intentar editar la ubicacion \"".$params['uname']."\"");
 				$red = false;
-				$path = '/ubicacion/edit/'.$param['id'];
-				echo $this->twig->render('edit.twig',compact('alert','title','red','path'));
 			}
+			echo $this->twig->render('edit.twig',compact('alert','title','red'));
+		}
+
+		public function remove($param){
+			$title = 'Ubicaciones';
+			$red = true;
+			$alert = array('type' => 'success', 'message' => "La ubicacion \"<strong>".$param."</strong>\" se elimino exitosamente");
+
+			echo $this->twig->render('del.twig',compact('alert','title','red'));
 		}
 
 		public function getone($id){
