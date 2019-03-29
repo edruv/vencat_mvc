@@ -63,9 +63,14 @@
 
 		public function remove($param){
 			$title = 'Ubicaciones';
-			$red = true;
-			$alert = array('type' => 'success', 'message' => "La ubicacion \"<strong>".$param."</strong>\" se elimino exitosamente");
-
+			$ubic = $this->model->getone($param);
+			if ($this->model->delete($param)) {
+				$red = true;
+				$alert = array('type' => 'success', 'message' => "La ubicacion \"<strong>".strtoupper($ubic['ubicacion'])."</strong>\" se elimino exitosamente");
+			}else {
+				$red = false;
+				$alert = array('type' => 'danger', 'message' => "<strong>Error</strong>! Se produjo un error interno al intentar editar la ubicacion \"".$ubic['ubicacion']."\"");
+			}
 			echo $this->twig->render('del.twig',compact('alert','title','red'));
 		}
 

@@ -34,13 +34,11 @@
 		public function add($var){
 			$add = $this->db->prepare("INSERT into ubicacion(ubicacion) values(:ubi)");
 			return $add->execute(array(':ubi' => $var['uname']));
-
 		}
 
 		public function delete($param){
 			$del = $this->db->prepare('DELETE from ubicacion where id = :id');
 			return ($del->execute(array(':id' => $param))) ? true : false;
-
 		}
 	}
 

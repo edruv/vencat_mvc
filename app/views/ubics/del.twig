@@ -11,10 +11,11 @@
 {% endblock %}
 
 {% block js %}
-{% if red == true %}
 <script type="text/javascript">
-	setTimeout(function() {window.location.href = '/vencat/ubicacion'},3000);
-
-</script>
+{% if red == true %}
+	setTimeout(function() {window.location.href = '/vencat/ubicacion'},2500);
+{% else %}
+	setTimeout(function() {window.location.href = '/vencat/ubicacion'},2000);
 {% endif %}
+</script>
 {% endblock %}
