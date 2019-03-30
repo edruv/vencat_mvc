@@ -11,19 +11,77 @@
 {% block content %}
 <form action="/vencat/cliente/add" method="post" class="col-md-4 col-md-offset-4 col-sm-12 text-center">
 	<div class="form-group">
-		<label for="">Nombre del lugar / área</label>
-		<input class="form-control" type="text" name="" id="">
+		<label for="name">Nombre <span class="text-danger">*</span>	</label>
+		<input class="form-control" type="text" name="name" id="name" required>
 	</div>
 	<div class="form-group">
-		<label for="">Nombre</label>
-		<input class="form-control" type="text" name="" id="">
+		<label for="aps">Apellidos</label>
+		<input class="form-control" type="text" name="aps" id="aps">
 	</div>
 	<div class="form-group">
-		<label for=""></label>
-		<input class="form-control" type="text" name="" id="">
+		<label for="ubic">Ubicacion <span class="text-danger">*</span>	</label>
+		<select class="form-control" name="ubic" id="ubic" required>
+			<option disabled selected>Selecciona lugar donde frecuenta</option>
+			{% for i in ubic %}
+			<option value="{{i.id}}">{{i.ubicacion}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="form-group">
+		<div class="text-muted">
+			<input type="checkbox" name="cmail" value="" id="cmail">
+			Agregar correo electronico
+		</div>
+	</div>
+	<div class="" id="fmail">
+		<div class="form-group">
+			<label for="mail">E-mail</label>
+			<input class="form-control" type="email" name="mail" id="mail">
+		</div>
+		<div class="form-group">
+			<label for="pass">Contraseña</label>
+			<input class="form-control" type="password" name="pass" id="pass">
+		</div>
+		<div class="form-group">
+			<label for="cpass">Confirmar contraseña</label>
+			<input class="form-control" type="password" name="cpass" id="cpass">
+		</div>
 	</div>
 	<div class="form-group">
 		<input type="submit" value="Crear Nueva Ubicacion" class="btn btn-primary">
 	</div>
 </form>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#fmail').hide();
+		$('#cmail').change(function() {
+			if ($(this).is(':checked')) {
+				$('#fmail').show();
+			}else {
+				$('#fmail').hide();
+			}
+		});
+
+		$('#pass').focusout(function() {
+			if ($(this).val() == 0) {
+				$(this).parent().addClass('has-error');
+			}else {
+				$(this).parent().removeClass('has-error');
+			}
+		});
+
+		$('#cpass').focusout(function() {
+			var conf = $(this).val(), pass = $('#pass').val();
+			if (conf === pass) {
+				$(this).parent().removeClass('has-error');
+				$('#pass').parent().removeClass('has-error');
+			}else {
+				$(this).parent().addClass('has-error');
+				$('#pass').parent().addClass('has-error');
+			}
+		});
+	});
+</script>
 {% endblock %}
