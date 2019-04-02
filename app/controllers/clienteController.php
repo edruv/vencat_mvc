@@ -23,7 +23,21 @@
 		}
 
 		public function add($values){
-			print_r($values);
+			$title = 'Agregar cliente';
+			$ubic = $this->ubic->all();
+			if (!isset($values['cmail'])) {
+				$values['mail'] = '';
+				$values['pass'] = '';
+				$values['cpass'] = '';
+			}
+
+			if ($values['pass'] === $values['cpass']) {
+				// code...
+			}else {
+				$alert = array('type' => 'danger', 'message' => "<strong>Error</strong>! Las contraseñas no coinciden");
+				echo $this->twig->render('add.twig',compact('title','ubic','alert'));
+			}
+
 		}
 	}
 ?>

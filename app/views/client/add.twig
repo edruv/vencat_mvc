@@ -56,9 +56,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#fmail').hide();
+		$('#cmail').prop('checked', false);
 		$('#cmail').change(function() {
 			if ($(this).is(':checked')) {
 				$('#fmail').show();
+				$(this).val(true);
 			}else {
 				$('#fmail').hide();
 			}
